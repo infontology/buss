@@ -1,0 +1,42 @@
+<div id="id01">Hej</div>
+
+<script>
+    var xmlhttp = new XMLHttpRequest();
+    var url = "static.json";
+    xmlhttp.onreadystatechange = function() {
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var myArr = JSON.parse(xmlhttp.responseText);
+            myFunction(myArr);
+            //console.log(myArr.timetableresult.ttitem[0].segment);
+            //console.log(xmlhttp.readyState);
+        }
+    }
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+
+    function myFunction(arr) {
+        var out = "";
+        var i;
+        var tur = [];
+        console.log(arr.timetableresult.ttitem.length);
+        for(i = 0; i < arr.timetableresult.ttitem.length; i++) {
+            tur[i] = arr.timetableresult.ttitem[i];
+            //console.log(tur[i]);
+            //out += '<a href="' + arr[i].url + '">' + 
+            //arr[i].display + '</a><br>';
+        }
+        //console.log(tur[0]);
+        var html = "";
+        for(i = 0; i < tur.length; i++) {
+            console.log(i);
+            console.log(tur[i].segment.length);
+            if(tur[i].segment.length >= 2) {} else {
+                html += tur[i].segment.departure.datetime.replace(/\S*\s/,"") + ' -- ';
+                html += tur[i].segment.arrival.datetime.replace(/\S*\s/,"") + '<br />';
+            }
+            console.log(i);
+            console.log(html);
+        }
+        document.getElementById("id01").innerHTML = html;
+    }
+</script>
